@@ -1,8 +1,9 @@
 //Contract based on [https://docs.openzeppelin.com/contracts/3.x/erc721](https://docs.openzeppelin.com/contracts/3.x/erc721)
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/Base64.sol";
 
 contract MyNFT is ERC721 {
     string[] private _packIds; // KMY_001
@@ -11,12 +12,9 @@ contract MyNFT is ERC721 {
     int[] private _useCounts;
     string[] private _images;
 
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
-
     constructor() ERC721( "Meta Data Create Token 1", "MDCT1" ) {}
 
-    function mintToken( string calldata packId, string calldata isUsed, string calldata firstUsedUser, string calldata useCount, string calldata image ) external {
+    function mintToken( string calldata packId, bool isUsed, string calldata firstUsedUser, int useCount, string calldata image ) external {
         uint256 tokenId = _packIds.length;
         _safeMint( msg.sender, tokenId );
 
@@ -28,8 +26,6 @@ contract MyNFT is ERC721 {
     }
 
        function tokenURI( uint256 tokenId ) public view override returns (string memory) {
-        require( _exists( tokenId ), "nonexsitent token" );
-
         bytes memory bytesPackId = abi.encodePacked(
             '"packId":"', _packIds[tokenId], '"'
         );
