@@ -1,5 +1,5 @@
 {
-  "name": "my-nft",
+  "name": "onchain-metadata-nft",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,10 +10,12 @@
   "license": "ISC",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "ethers": "^5.7.2",
     "hardhat": "^2.18.3"
   },
   "dependencies": {
+    "@alch/alchemy-web3": "^1.4.7",
     "@openzeppelin/contracts": "^5.0.0",
     "dotenv": "^16.3.1"
   }
