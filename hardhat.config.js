@@ -6,7 +6,21 @@ require("dotenv").config();
 require("@nomiclabs/hardhat-ethers");
 const { API_URL, PRIVATE_KEY, ETHERSCAN_API_KEY } = process.env;
 module.exports = {
-  solidity: "0.8.20",
+  solidity: {
+    version: "0.8.20",
+    settings: {
+      viaIR: true,
+      optimizer: {
+        enabled: true,
+        details: {
+          yulDetails: {
+            optimizerSteps: "u:",
+          },
+        },
+      },
+    },
+  },
+
   defaultNetwork: "goerli",
   networks: {
     hardhat: {},

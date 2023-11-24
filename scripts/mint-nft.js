@@ -7,17 +7,15 @@ const web3 = createAlchemyWeb3(API_URL);
 const contract = require("../artifacts/contracts/OnchainMetadataNFT.sol/OnchainMetadataNFT.json");
 const nftContract = new web3.eth.Contract(contract.abi, CONTRACT_ADDRESS);
 
-async function mintToken(packId, isUsed, firstUsedUser, useCount, image) {
+async function mintToken(to, metadata) {
   const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest");
 
   const tx = {
     from: PUBLIC_KEY,
     to: CONTRACT_ADDRESS,
     nonce: nonce,
-    gas: 500000,
-    data: nftContract.methods
-      .mintToken(packId, isUsed, firstUsedUser, useCount, image)
-      .encodeABI(),
+    gas: 2000000,
+    data: nftContract.methods.mintToken(to, metadata).encodeABI(),
   };
 
   const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY);
@@ -46,10 +44,29 @@ async function mintToken(packId, isUsed, firstUsedUser, useCount, image) {
     });
 }
 
-mintToken(
-  "KMY_001",
-  false,
-  "User1",
-  0,
-  "https://arweave.net/6QhqSuCyk9I61KE_G8ONof5PyQLxGU-VplCV1y5b5mU"
-);
+mintToken("{{toAddress}}", {
+  name: "Vegeta",
+  description: "Saiyan Prince",
+  attributes: {
+    packId: "KMY_001",
+    cardBaseId: "KMY_001_R001",
+    indivisualId: 10003202,
+    frameId: "R01",
+    isVoiceOpened: false,
+    isUsed: false,
+    firstUser: "Freezer",
+    usedCount: 0,
+    altIllustId: 2,
+    cost: 7,
+    offensivePower: 7,
+    hp: 7,
+    skill1: "guard",
+    skill2: "speed",
+    skill3: "intelligence",
+    skill4: "-",
+    lines: "Big bang attack",
+    illustrator: "Akira Toriyama",
+    cv: "Ryo Horikawa",
+  },
+  image: "{{imageUrl}}",
+});
